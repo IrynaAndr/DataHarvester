@@ -1,22 +1,43 @@
-def Check_if_legal(link):
-     # Use existing libraries or methods to determine if the site is legal to scrape
-    # Perform checks or use libraries like robots.txt parsers, etc.
-    # Return True if legal, False otherwise (for demonstration purposes)
-    if "example.com" in link:
-        return True
-    else:
-        return False
-def get_attributes(link):
-    # Here, you would implement the logic to retrieve attributes from the provided link
-    # Replace this with actual code that retrieves attributes from the website
-    # For demonstration, returning a list of mock attributes
-    return ["Attribute1", "Attribute2", "Attribute3", "Attribute4", "Attribute5", "Attribute6", "Attribute7", "Attribute8", "Attribute9"]
+from modules.json_table import save_data_to_json
+from modules.csv_txt_table import generate_filename, save_csv_data, save_txt_data
+from modules.check_safety import get_robots_txt
+from modules.getClasses import get_all_class_names, get_text_from_classes, dict_to_text
+from modules.get_data_in_element import get_text_from_element
 
-def get_data(link, checked_attributes, selected_format):
-    # Here, create the file with the checked attributes based on the chosen format
-    # For demonstration purposes, just printing the attributes and format
+def Check_if_legal(link):
+    return(get_robots_txt(link))
+
+def get_attributes(link):
+    class_names = get_all_class_names(link)
+    return class_names
+    
+    
+def get_class_data(link, checked_attributes):
+    #print("Link:", link)
+    #print("Checked Attributes:", checked_attributes)
+    result = get_text_from_classes(link, checked_attributes)
+
+    if result is not None:
+        return dict_to_text(result)
+    else:
+        return("Failed to retrieve text content.")
+        
+def get_table(link, selected_format):
     print("Link:", link)
-    print("Checked Attributes:", checked_attributes)
     print("Selected Format:", selected_format)
-    # Replace this with code to create a file with the given data and chosen format
-    # For example, write the attributes to a CSV or text file based on the selected format
+    filename = generate_filename(link, selected_format)
+    if selected_format == '.csv':
+        return(save_csv_data(link, filename))
+       
+    elif selected_format == '.json':
+        return save_data_to_json(link)
+    else:
+        return(save_txt_data(link, filename))
+        
+def get_element(link, element):
+    text_content_list = get_text_from_element(link, element)
+    all_text_content = ""
+    if text_content_list:
+        for text_content in text_content_list:
+            all_text_content += text_content 
+    return all_text_content
