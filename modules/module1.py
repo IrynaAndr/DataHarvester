@@ -39,5 +39,5 @@ def get_element(link, element):
     all_text_content = ""
     if text_content_list:
         for text_content in text_content_list:
-            all_text_content += text_content 
+            all_text_content += text_content + '\n' 
     return all_text_content
