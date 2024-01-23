@@ -16,13 +16,11 @@ def get_text_from_element(url, element_name):
         return(f"Error during request: {e}")
         
 '''
-# Replace this URL with the actual URL of the webpage
 url = 'https://en.tutiempo.net/climate/1959/ws-783670.html'
 
-# Replace this with the actual element name you're interested in (e.g., 'p', 'div', 'span', etc.)
+# ('p', 'div', 'span', etc.)
 element_name_to_extract = 'p'
 
-# Call the function and print the result
 text_content_list = get_text_from_element(url, element_name_to_extract)
 if text_content_list:
     print(f'Text content of elements with tag name "{element_name_to_extract}":')
